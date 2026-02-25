@@ -22,40 +22,54 @@ interface MetricMetadata {
   unit: string;
 }
 
+// Shared agent pool per datasource id — reuses TLS connections and limits
+// concurrent sockets to avoid overwhelming Prometheus with a thundering herd.
+const agentCache = new Map<number, https.Agent | http.Agent>();
+
+function getOrCreateAgent(datasource: Datasource): https.Agent | http.Agent {
+  const existing = agentCache.get(datasource.id);
+  if (existing) return existing;
+
+  const isHttps = datasource.url.startsWith("https://");
+  let agent: https.Agent | http.Agent;
+
+  if (isHttps) {
+    const agentOptions: https.AgentOptions = {
+      rejectUnauthorized: !datasource.skipVerify,
+      keepAlive: true,
+      maxSockets: 20,
+    };
+
+    if (datasource.authType === "tls") {
+      if (datasource.tlsClientCert) agentOptions.cert = datasource.tlsClientCert;
+      if (datasource.tlsClientKey) agentOptions.key = datasource.tlsClientKey;
+      if (datasource.caCert) agentOptions.ca = datasource.caCert;
+    }
+
+    agent = new https.Agent(agentOptions);
+  } else {
+    agent = new http.Agent({ keepAlive: true, maxSockets: 8 });
+  }
+
+  agentCache.set(datasource.id, agent);
+  return agent;
+}
+
 export class DatasourcePrometheusClient {
   private baseUrl: string;
-  private agent: https.Agent | http.Agent | undefined;
+  private agent: https.Agent | http.Agent;
   private authHeader: string | undefined;
   private isHttps: boolean;
 
   constructor(private datasource: Datasource) {
     this.baseUrl = datasource.url.replace(/\/$/, "");
     this.isHttps = this.baseUrl.startsWith("https://");
+    this.agent = getOrCreateAgent(datasource);
     this.setupAuth();
   }
 
   private setupAuth(): void {
-    if (this.isHttps) {
-      const agentOptions: https.AgentOptions = {
-        rejectUnauthorized: !this.datasource.skipVerify,
-      };
-
-      if (this.datasource.authType === "tls") {
-        if (this.datasource.tlsClientCert) {
-          agentOptions.cert = this.datasource.tlsClientCert;
-        }
-        if (this.datasource.tlsClientKey) {
-          agentOptions.key = this.datasource.tlsClientKey;
-        }
-        if (this.datasource.caCert) {
-          agentOptions.ca = this.datasource.caCert;
-        }
-      }
-
-      this.agent = new https.Agent(agentOptions);
-    } else {
-      this.agent = new http.Agent();
-    }
+    // Agent is now created via the shared pool — only set auth header here
   }
 
   private fetch<T>(path: string): Promise<T> {

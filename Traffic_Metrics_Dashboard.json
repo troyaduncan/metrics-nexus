@@ -1,0 +1,4163 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": 91,
+  "iteration": 1686280996106,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "decimals": 0,
+      "description": "Incoming Traffic of NCHF Charging, NCHF Ploicy, Diameter Gy, Diameter Sy, SCAPv2 and Diameter VoLTE",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "TPS"
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 35,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum (increase(cha_access_nchf_charging_http_requests_total[1m])) / 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "NCHF Charging",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum (increase(cha_access_nchf_policy_http_requests_total[1m])) / 60 ",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "NCHF Policy",
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(cha_access_rating_diameter_requests_total{requestname=~\"EricssonCharging-Ro-Gy-Gy-CCR-.*\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Diameter Gy",
+          "refId": "F"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(cha_access_rating_diameter_requests_total{service_context=\"EricssonCharging-Ro-Gy\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Diameter Gy",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum (increase(cha_access_policy_sy_diameter_requests_total{requestname=~\".*\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Diameter Sy",
+          "refId": "G"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(increase(cha_access_rating_diameter_requests_total{requestname=~\"EricssonCharging-SCAPv2-.*\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "SCAPv2",
+          "refId": "J"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(increase(cha_access_rating_diameter_requests_total{service_context=\"EricssonCharging-SCAPv2\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "SCAPv2",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(cha_access_rating_diameter_requests_total{requestname=~\"EricssonCharging-Ro-VoLTE-MMTel-Ro-CCR-.*\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Diameter VoLTE",
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(cha_access_rating_diameter_requests_total{service_context=~\"EricssonCharging-Ro-VoLTE.*\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Diameter VoLTE",
+          "refId": "H"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Total Incoming Traffic TPS",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:162",
+          "decimals": 0,
+          "format": "TPS",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:163",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "decimals": 0,
+      "description": "Outgoing Errors of NCHF Charging, NCHF Policy, Diameter Gy, Diameter Sy, SCAPv2 and Diameter VoLTE",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "TPS"
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 37,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum (increase(cha_access_nchf_charging_http_requests_errors_total[1m])) / 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "NCHF Charging Errors",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum (increase(cha_access_nchf_policy_http_requests_errors_total[1m])) / 60 ",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "NCHF Policy Errors",
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(increase(cha_access_rating_diameter_requests_errors_total{requestname=~\"EricssonCharging-Ro-Gy-Gy-CCR-.*\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Diameter Gy Errors",
+          "refId": "F"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(increase(cha_access_rating_diameter_requests_errors_total{service_context=\"EricssonCharging-Ro-Gy\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Diameter Gy Errors",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum (increase(cha_access_policy_sy_diameter_requests_errors_total{requestname=~\".*\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Diameter Sy Errors",
+          "refId": "G"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(increase(cha_access_rating_diameter_requests_errors_total{requestname=~\"EricssonCharging-Ro-VoLTE-MMTel-Ro-CCR-.*\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Diameter VoLTE Errors",
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(increase(cha_access_rating_diameter_requests_errors_total{service_context=~\"EricssonCharging-Ro-VoLTE.*\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Diameter VoLTE Errors",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(increase(cha_access_rating_diameter_requests_errors_total{requestname=~\"EricssonCharging-SCAPv2-.*\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "SCAPv2 Errors",
+          "refId": "J"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(increase(cha_access_rating_diameter_requests_errors_total{service_context=\"EricssonCharging-SCAPv2\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "SCAPv2 Errors",
+          "refId": "H"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Total Outgoing Errors TPS",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:162",
+          "decimals": 0,
+          "format": "TPS",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:163",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "decimals": 0,
+      "description": "NCHF Total request",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "hiddenSeries": false,
+      "id": 2,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instanceName) (irate(cha_access_nchf_charging_http_requests_total[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "NCHF Total",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(irate(cha_access_nchf_charging_http_requests_total[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}} | NCHF Total | {{operation}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Rate And Charge SBI",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:162",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:163",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "decimals": 0,
+      "description": "Total access traffic of NCHF Charging, NCHF Policy, Diameter Gy, Diameter Sy, SCAPv2, Diameter VoLTE, External SDP SBI CIR and External SDP CIR (Gy+VoLTE+SCAPv2)",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "hiddenSeries": false,
+      "id": 23,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum (increase(cha_access_nchf_charging_http_requests_total[1m])) / 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "NCHF Charging",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum (increase(cha_access_nchf_policy_http_requests_total[1m])) / 60 ",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "NCHF Policy",
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(cha_access_rating_diameter_requests_total{requestname=~\"EricssonCharging-Ro-Gy-Gy-CCR-.*\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Diameter Gy",
+          "refId": "F"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(cha_access_rating_diameter_requests_total{service_context=\"EricssonCharging-Ro-Gy\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Diameter Gy",
+          "refId": "K"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum (increase(cha_access_policy_sy_diameter_requests_total{requestname=~\".*\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Diameter Sy",
+          "refId": "G"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(cha_access_rating_diameter_requests_total{requestname=~\"EricssonCharging-Ro-VoLTE-MMTel-Ro-CCR-.*\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Diameter VoLTE",
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(cha_access_rating_diameter_requests_total{service_context=~\"EricssonCharging-Ro-VoLTE.*\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Diameter VoLTE",
+          "refId": "L"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum(increase (cha_access_external_rating_diameter_requests_total{requestname=~\"SBI_.*_CIR\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "External SDP SBI CIR",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(increase (cha_access_external_rating_diameter_requests_total{requestname!~\"SBI_.*|sdp.*\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "External SDP CIR (Gy+VoLTE+SCAPv2)",
+          "refId": "H"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (requestname) (increase (cha_access_external_rating_diameter_requests_total{}[1m]))/ 60",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "I"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (requestname) (increase(cha_access_rating_diameter_requests_total{}[1m]))/ 60",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(increase(cha_access_rating_diameter_requests_total{requestname=~\"EricssonCharging-SCAPv2-.*\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "SCAPv2",
+          "refId": "J"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(increase(cha_access_rating_diameter_requests_total{service_context=\"EricssonCharging-SCAPv2\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "SCAPv2",
+          "refId": "M"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Total Access Traffic ",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:162",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:163",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "decimals": 0,
+      "description": "NCHF Total",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "hiddenSeries": false,
+      "id": 27,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instanceName) (irate(cha_access_rating_diameter_requests_total[$__rate_interval]))",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "NCHF Total",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(irate(cha_access_rating_diameter_requests_total[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}} | NCHF Total | {{requestname}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Rate And Charge Diameter",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:162",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:163",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                0
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "sum"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "for": "5m",
+        "frequency": "1m",
+        "handler": 1,
+        "message": "5G traffic ERRORS are generated:\nNCHF ERRORS | ${operation} - ${code}",
+        "name": "Rate and Charge SBI ERRORS TPS alert",
+        "noDataState": "no_data",
+        "notifications": [
+          {
+            "uid": "rl-j7wQ7z"
+          }
+        ]
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "decimals": 0,
+      "description": "NCHF and NCHF Policy Errors",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "hiddenSeries": false,
+      "id": 20,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (code,operation) (increase(cha_access_nchf_charging_http_requests_errors_total[1m])) / 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "TPS NCHF ERRORS | {{operation}} | {{code}}",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (code,operation) (increase(cha_access_nchf_charging_http_requests_errors_total[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "NCHF ERRORS | {{operation}} | {{code}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(cha_access_nchf_charging_http_requests_errors_total[$__rate_interval]))",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}} | NCHF ERRORS | {{operation}} | {{code}}",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum by (code,operation) (increase(cha_access_nchf_policy_http_requests_errors_total[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "NCHF POLICY ERRORS | {{operation}} | {{code}}",
+          "refId": "D"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 0,
+          "visible": true
+        }
+      ],
+      "timeRegions": [],
+      "title": "Rate And Charge SBI ERRORS TPS",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:162",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:163",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "decimals": 0,
+      "description": "External Rating - TPS",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 24
+      },
+      "hiddenSeries": false,
+      "id": 16,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum by (endpoint,requestname) (irate(cha_access_external_rating_diameter_requests_total[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "SUCCESS | {{endpoint}} | {{requestname}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum by (endpoint,requestname) (irate(cha_access_external_policy_diameter_requests_total[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "SUCCESS POLICY | {{endpoint}} | {{requestname}}",
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum by (endpoint,requestname,code) (irate(cha_access_external_rating_diameter_requests_errors_total[$__rate_interval]))",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "ERROR | {{endpoint}} | {{requestname}} | {{code}}",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum by (endpoint,requestname,code) (irate(cha_access_external_policy_diameter_requests_errors_total[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "ERROR POLICY | {{endpoint}} | {{requestname}} | {{code}}",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "External Rating - TPS",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:162",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:163",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                0
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "D",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "sum"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "for": "5m",
+        "frequency": "1m",
+        "handler": 1,
+        "message": "Diameter ERRORS are generated:\nDiameter ERRORS | ${operation} - ${requestname} - ${code}",
+        "name": "Rate and Charge Diameter ERRORS alert",
+        "noDataState": "no_data",
+        "notifications": [
+          {
+            "uid": "rl-j7wQ7z"
+          }
+        ]
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "decimals": 0,
+      "description": "NCHF, Diameter and TPS-Diameter Errors",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 24
+      },
+      "hiddenSeries": false,
+      "id": 28,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (code,operation,requestname) (increase(cha_access_rating_diameter_requests_errors_total[1m]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Diameter ERRORS | {{operation}} | {{requestname}} | {{code}}",
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (code,operation) (increase(cha_access_rating_diameter_requests_errors_total[$__rate_interval]))",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Diameter ERRORS | {{operation}} | {{code}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(cha_access_rating_diameter_requests_errors_total[$__rate_interval]))",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}} | NCHF ERRORS | {{operation}} | {{code}}",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (code,operation,requestname) (increase(cha_access_rating_diameter_requests_errors_total{code=\"5002\"}[1m])) / 60",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Diameter ERRORS | {{operation}} | {{requestname}} | {{code}}",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(cha_access_policy_diameter_requests_total[$__rate_interval]))",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}} | NCHF ERRORS | {{operation}} | {{code}}",
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum by (code,operation,requestname) (increase(cha_access_rating_diameter_requests_errors_total[1m])) /60",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "TPS - Diameter ERRORS | {{operation}} | {{requestname}} | {{code}}",
+          "refId": "F"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 0,
+          "visible": true
+        }
+      ],
+      "timeRegions": [],
+      "title": "Rate And Charge Diameter ERRORS",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:162",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:163",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "decimals": 0,
+      "description": "Displays Cha-access external rating diameter request duration",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 32
+      },
+      "hiddenSeries": false,
+      "id": 29,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "avg by (requestname,quantile) (cha_access_external_rating_diameter_request_duration_seconds)",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "avg by (requestname,quantile) (cha_access_external_rating_diameter_request_duration_seconds{quantile=\"0.95\"})",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "max by (endpoint,quantile) (cha_access_external_rating_diameter_request_duration_seconds)",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "External Rating - Latency",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:162",
+          "format": "s",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:163",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "decimals": 0,
+      "description": "Displays Cha-core akka internal errors and cha-access routing internal errors",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 32
+      },
+      "hiddenSeries": false,
+      "id": 34,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(cha_core_rating_akka_requests_errors_total[1m]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{operation}} | {{code}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(cha_access_internal_routing_akka_requests_errors_total[1m])) / 60",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Part-{{customer_partition}} |{{instanceName}} | {{kubernetes_name}} | {{instance}} | {{requestname}}",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(cha_access_internal_routing_akka_requests_errors_total[1m])) / 60",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Part-{{customer_partition}} |{{instanceName}} | {{kubernetes_name}} | {{instance}} | {{requestname}}",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "CHA-Core - Akka Internal Errors",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:162",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:163",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "decimals": 0,
+      "description": "Displays Cha-access external rating diameter request duration in seconds",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 40
+      },
+      "hiddenSeries": false,
+      "id": 30,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "avg by (requestname,quantile) (cha_access_external_rating_diameter_request_duration_seconds)",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "avg by (requestname,quantile) (cha_access_external_rating_diameter_request_duration_seconds{quantile=\"0.95\"})",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instance,type) (increase (cha_dlb_loadbalancer_diameter_total[1m])) / 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "cha_dlb_loadbalancer_diameter_total",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instance}} {{type}}",
+          "refId": "D"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "External Rating Request DLB - TPS",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:162",
+          "format": "requests",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:163",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "decimals": 0,
+      "description": "Displays Cha-core - Session Akka internal Errors and Cha-access Akka internal routing Errors",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 40
+      },
+      "hiddenSeries": false,
+      "id": 38,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "(increase(cha_core_rating_session_akka_requests_errors_total[1m]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instance}} | {{session_type}} | {{code}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(cha_access_internal_routing_akka_requests_errors_total[1m])) / 60",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Part-{{customer_partition}} |{{instanceName}} | {{kubernetes_name}} | {{instance}} | {{requestname}}",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(cha_access_internal_routing_akka_requests_errors_total[1m])) / 60",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Part-{{customer_partition}} |{{instanceName}} | {{kubernetes_name}} | {{instance}} | {{requestname}}",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "CHA-Core - Session Akka Internal Errors",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:162",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:163",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "decimals": 0,
+      "description": "Displays ChaAccess - Akka internal requests and errors",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 48
+      },
+      "hiddenSeries": false,
+      "id": 25,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(cha_access_internal_routing_akka_requests_total[1m])) / 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Part-{{customer_partition}} |{{instanceName}} | {{kubernetes_name}} | {{instance}} | {{requestname}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(cha_access_internal_routing_akka_requests_errors_total[1m])) / 60",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Part-{{customer_partition}} |{{instanceName}} | {{kubernetes_name}} | {{instance}} | {{requestname}}",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "CHA-Access - Akka internal - TPS",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:162",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:163",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "decimals": 0,
+      "description": "Displays Cha-access Event, EDM CFE Fetched, EDM CNFE Fetched, EDM Recovery Fetched, Cha-core Event and EDM CCE Fetched",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 48
+      },
+      "hiddenSeries": false,
+      "id": 3,
+      "interval": "30s",
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instanceName) (irate(cha_access_event_creation_java_total[$__rate_interval]))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "CHA Access Event",
+          "refId": "H"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instanceName)(irate(edm_pub_consume_java_cfe_fetched_total[$__rate_interval]))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "EDM CFE Fetched",
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instanceName)(irate(edm_pub_consume_java_cnfe_fetched_total[$__rate_interval]))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "EDM CNFE Fetched",
+          "refId": "G"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instanceName) (irate(edm_pub_recy_java_fetched_success_total[$__rate_interval]))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "EDM Recovery Fetched",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instanceName) (irate(cha_core_event_creation_java_total[$__rate_interval]))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "CHA Core Event",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instanceName)(irate(edm_pub_consume_java_cce_fetched_total[$__rate_interval]))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "EDM CCE Fetched",
+          "refId": "F"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Events Created And Processed",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:479",
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:480",
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "description": "Displays Cha-access NCHF charging request",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 56
+      },
+      "hiddenSeries": false,
+      "id": 5,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "cha_access_nchf_charging_http_request_duration_seconds",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instance}} | {{operation}} | {{quantile}}",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(cha_access_nchf_charging_http_request_duration_seconds{quantile=\"0.95\"})",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instance}} | {{operation}} | {{quantile}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Rate And Charge SBI - Response time",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:241",
+          "format": "s",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:242",
+          "format": "s",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "decimals": 0,
+      "description": "Displays CHA access event generation, CHA core event generation, EDM CFE Fetched, EDM CNFE Fetched, EDM CFE consolidted, EDM recovery Fetched, EDM CCE Fetched and EDM CCE consolidated",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 56
+      },
+      "hiddenSeries": false,
+      "id": 21,
+      "interval": "30s",
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instanceName) (increase(cha_access_event_creation_java_total[5m])) / 300",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "CHA Access Event",
+          "refId": "H"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instanceName)(increase(edm_pub_consume_java_cfe_fetched_total[5m])) / 300",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "EDM CFE Fetched",
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instanceName)(increase(edm_pub_consume_java_cnfe_fetched_total[5m])) / 300",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "EDM CNFE Fetched",
+          "refId": "G"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instanceName)(increase(edm_pub_asn1consol_sftp_cfe_total[5m])) / 300",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "EDM CFE Consolidated",
+          "refId": "I"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instanceName)(increase(edm_pub_asn1consol_sftp_cnfe_total[5m])) / 300",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "EDM CNFE Consolidated",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instanceName) (increase(edm_pub_recy_java_fetched_success_total[5m])) / 300",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "EDM Recovery Fetched",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instanceName) (increase(cha_core_event_creation_java_total[5m])) / 300",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "CHA Core Event",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instanceName)(increase(edm_pub_consume_java_cce_fetched_total[5m])) / 300",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "EDM CCE Fetched",
+          "refId": "F"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instanceName)(increase(edm_pub_asn1consol_sftp_cce_total[5m])) / 300",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "EDM CCE Consolidated",
+          "refId": "D"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "EDM Consolidation vs CHA generation, 5min / 300s (EPS)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:479",
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:480",
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "description": "Displays NCHF charging and Diameter response time\n\n\n",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 64
+      },
+      "hiddenSeries": false,
+      "id": 36,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "cha_access_rating_diameter_request_duration_seconds",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instance}} | {{requestname}} | {{quantile}}",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(cha_access_nchf_charging_http_request_duration_seconds{quantile=\"0.95\"})",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instance}} | {{operation}} | {{quantile}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Diameter - Response time",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:241",
+          "format": "s",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:242",
+          "format": "s",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "decimals": 0,
+      "description": "Displays EDM CFE, EDM CNFE and EDM CCE \nsuccessful events",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 64
+      },
+      "hiddenSeries": false,
+      "id": 9,
+      "interval": "30s",
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(edm_pub_transfer_sftp_success_total[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(edm_pub_transfer_sftp_failure_total[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}}",
+          "refId": "J"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(edm_pub_asn1trans_sftp_cfe_total[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}}",
+          "refId": "G"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(edm_pub_asn1trans_sftp_cnfe_total[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}}",
+          "refId": "M"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(edm_pub_asn1trans_sftp_cce_total[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}}",
+          "refId": "H"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(edm_pub_asn1trans_sftp_cfe_alternateformat_total[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}}",
+          "refId": "I"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(edm_pub_asn1trans_sftp_cnfe_alternateformat_total[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}}",
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(edm_pub_asn1trans_sftp_cce_alternateformat_total[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}}",
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(edm_pub_asn1consol_sftp_cfe_total[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}}",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(edm_pub_asn1consol_sftp_cnfe_total[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}}",
+          "refId": "N"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(edm_pub_asn1consol_sftp_cce_total[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}}",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Total EDM Events Transferred - Success",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:376",
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:377",
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "description": "Average Translation 95,99 - Response time",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 72
+      },
+      "hiddenSeries": false,
+      "id": 31,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "avg by (quantile) (cha_access_cpm_id_translation_java_request_duration_seconds)",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(cha_access_nchf_charging_http_request_duration_seconds{quantile=\"0.95\"})",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instance}} | {{operation}} | {{quantile}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Average Translation 95,99 - Response Time",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:241",
+          "format": "s",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:242",
+          "format": "s",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "decimals": 0,
+      "description": "Displays EDM CNFE, EDM CCE consolidated",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 72
+      },
+      "hiddenSeries": false,
+      "id": 26,
+      "interval": "30s",
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(edm_pub_asn1consol_sftp_cnfe_total[10m])) / 600",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}}",
+          "refId": "N"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(edm_pub_asn1consol_sftp_cce_total[10m])) / 600",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}}",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "EDM Consolidated - TPS",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:376",
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:377",
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "description": "Average Cha-access CIL - Response time",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 80
+      },
+      "hiddenSeries": false,
+      "id": 32,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "avg by (instance,quantile,method) (cha_access_cil_data_mgmt_java_request_duration_seconds)",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(cha_access_nchf_charging_http_request_duration_seconds{quantile=\"0.95\"})",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instance}} | {{operation}} | {{quantile}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Average CHA-access CIL - Response Time",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:241",
+          "format": "s",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:242",
+          "format": "s",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "description": "EDM Event Publishing failed events",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 80
+      },
+      "hiddenSeries": false,
+      "id": 4,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "EDMEventPublishing_EventsTransferredFailure_total\n",
+          "hide": false,
+          "instant": false,
+          "interval": "1m",
+          "intervalFactor": 1,
+          "legendFormat": "{{kubernetes_pod_name}}",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Total EDM Events Transferred - Failure",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:1066",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:1067",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "description": "Core - Charging Converged Rate And Charge",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 88
+      },
+      "hiddenSeries": false,
+      "id": 7,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(cha_core_rating_akka_request_total{job=\"eric-bss-cha-core\"}[$__rate_interval]))",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(cha_core_rating_akka_requests_total{direction=\"OUT\"}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instance}} | {{direction}} | {{operation}}",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (code)(increase(cha_core_rating_akka_requests_errors_total{}[1m]))/ 60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instance}} | ERROR | {{direction}} | {{operation}} | {{code}}",
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(cha_core_rating_akka_requests_errors_total{direction=\"OUT\"}[1m]))/ 60",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instance}} | ERROR | {{direction}} | {{operation}} | {{code}}",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(cha_core_rating_akka_requests_errors_total{direction=\"IN\"}[1m]))/ 60",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instance}} | ERROR | {{direction}} | {{operation}} | {{code}}",
+          "refId": "D"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Core - Charging Converged Rate And Charge",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:628",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:629",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "decimals": 0,
+      "description": "Displays MSISDN Provisioning Total, MSISDN Provisioning Success, IMSI Provisioning Total, IMSI Provisioning Success and MSISDN Provisioning Failed.",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 88
+      },
+      "hiddenSeries": false,
+      "id": 11,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(cpm_provision_msisdn_dns_requests_total[1m])) /60",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}} | MSISDN Provisioning Total",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(cpm_provision_msisdn_dns_requests_success_total[1m])) /60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}} | MSISDN Provisioning Success",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(cpm_provision_imsi_dns_requests_total[1m])) /60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}} | IMSI Provisioning Total",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(cpm_provision_imsi_dns_requests_success_total[1m])) /60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}} | IMSI Provisioning Success",
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(increase(cpm_provision_msisdn_dns_requests_failed_total[1m])) /60",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}} | MSISDN Provisioning Failed",
+          "refId": "E"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "CPM DNS - TPS",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:162",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:163",
+          "decimals": 0,
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "description": "Core - Charging Converged Rate And Charge - Response Time",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 96
+      },
+      "hiddenSeries": false,
+      "id": 8,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instanceName) (increase(ChargingConvergedRateAndCharge_Requests_Received_ResponseTime_seconds_max{app_kubernetes_io_name=\"eric-bss-cha-core\"}[$__rate_interval]))",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} response time max",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "cha_core_rating_akka_request_duration_seconds{}",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instance}}  | {{quantile}}",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Core - Charging Converged Rate And Charge - Response Time",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:990",
+          "format": "s",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:991",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "decimals": 0,
+      "description": "Displays MSISDN Provisioning Latency and IMSI Provisioning Latency",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 96
+      },
+      "hiddenSeries": false,
+      "id": 12,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "cpm_provision_msisdn_dns_response_duration_seconds_max",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}} | MSISDN Provisioning Latency",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "cpm_provision_imsi_dns_response_duration_seconds_max",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instanceName}} | {{kubernetes_name}} | {{instance}} | IMSI Provisioning Latency",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "CPM DNS - Response Time (max)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:162",
+          "format": "s",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:163",
+          "format": "s",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "description": "Average Cha-core CIL - Response Time",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 104
+      },
+      "hiddenSeries": false,
+      "id": 33,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "avg by (instance,method,quantile) (cha_core_cil_data_mgmt_java_request_duration_seconds)",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "cha_core_rating_akka_request_duration_seconds{}",
+          "hide": true,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{instance}}  | {{quantile}}",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Average CHA-core CIL - Response Time",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:990",
+          "format": "s",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:991",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "description": "Total CHA NRF registration requests",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 104
+      },
+      "hiddenSeries": false,
+      "id": 17,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": false
+      },
+      "percentage": false,
+      "pluginVersion": "9.0.2",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "(rate(cha_nfreg_nrf_registration_http_requests_total[1m]))",
+          "hide": true,
+          "instant": false,
+          "interval": "1m",
+          "intervalFactor": 1,
+          "legendFormat": "{{kubernetes_pod_name}}",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "increase(cha_nfreg_nrf_registration_http_requests_total[$__rate_interval])",
+          "hide": true,
+          "instant": false,
+          "interval": "10s",
+          "intervalFactor": 1,
+          "legendFormat": "{{method}} | {{operation}} | {{instance}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "cha_nfreg_nrf_registration_http_requests_total",
+          "hide": true,
+          "instant": false,
+          "interval": "10s",
+          "intervalFactor": 1,
+          "legendFormat": "{{method}} | {{operation}} | {{instance}}",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "exemplar": true,
+          "expr": "idelta(cha_nfreg_nrf_registration_http_requests_total[$__rate_interval])",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "interval": "10s",
+          "intervalFactor": 1,
+          "legendFormat": "{{method}} | {{operation}} | {{instance}}",
+          "refId": "D"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Total Charging NRF Registration Requests",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:177",
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:178",
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Application_datasource}"
+      },
+      "description": "Cassandra ECOP rejections",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 112
+      },
+      "id": 19,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Application_datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "increase(cassandra_ecop_rejections_total[60s])/60",
+          "interval": "",
+          "legendFormat": "{{kubernetes_pod_name}}-{{mechanism}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "CIL Reject",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": [
+    "cCAF"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "default"
+          ],
+          "value": [
+            "default"
+          ]
+        },
+        "description": "The Data source that contains BAM PM server metrics",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Application Data Source",
+        "multi": true,
+        "name": "Application_datasource",
+        "options": [],
+        "query": "prometheus",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
+  "timepicker": {
+    "now": true,
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "Traffic Metrics Dashboard",
+  "uid": "E83mnmU7",
+  "version": "1.0.0",
+  "weekStart": ""
+}

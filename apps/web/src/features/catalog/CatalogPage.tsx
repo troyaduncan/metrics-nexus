@@ -1,13 +1,18 @@
 import { useState, useMemo } from "react";
-import { Search } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Search, Database, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Drawer } from "@/components/ui/Drawer";
+import { Badge } from "@/components/ui/Badge";
 import { MetricCard } from "./MetricCard";
 import { MetricDetail } from "./MetricDetail";
 import { metricsCatalog } from "@metrics-nexus/shared/data/metrics-catalog.js";
 import { CATEGORIES, COMPONENTS } from "@metrics-nexus/shared/utils/metric-categories.js";
+import { datasourceApi } from "@/lib/api/datasources";
+import { useSettingsStore } from "@/lib/stores/settings-store";
 import type { Metric } from "@metrics-nexus/shared/schemas/metric.js";
+import type { ExtendedMetricInfo } from "@metrics-nexus/shared";
 
 export function CatalogPage() {
   const [search, setSearch] = useState("");
@@ -16,6 +21,27 @@ export function CatalogPage() {
   const [filterAudience, setFilterAudience] = useState("");
   const [filterType, setFilterType] = useState("");
   const [selectedMetric, setSelectedMetric] = useState<Metric | null>(null);
+
+  const activeDatasourceId = useSettingsStore((s) => s.activeDatasourceId);
+
+  // Fetch extended metrics (with labels + sample counts) from active datasource
+  const { data: liveMetrics, isLoading: isLoadingLive } = useQuery({
+    queryKey: ["datasource-extended-metrics", activeDatasourceId],
+    queryFn: () => datasourceApi.getMetrics(activeDatasourceId!, true),
+    enabled: !!activeDatasourceId,
+    staleTime: 120_000,
+  });
+
+  // Build a lookup map: metric name → ExtendedMetricInfo
+  const liveMetricsMap = useMemo(() => {
+    const map = new Map<string, ExtendedMetricInfo>();
+    if (liveMetrics) {
+      for (const m of liveMetrics) {
+        map.set(m.name, m);
+      }
+    }
+    return map;
+  }, [liveMetrics]);
 
   const filtered = useMemo(() => {
     return metricsCatalog.filter((m) => {
@@ -62,9 +88,26 @@ export function CatalogPage() {
         <h1 className="text-2xl font-bold text-text-primary mb-1">
           Metrics Catalog
         </h1>
-        <p className="text-sm text-text-muted">
-          {metricsCatalog.length} metrics across {Object.keys(COMPONENTS).length} CHA components
-        </p>
+        <div className="flex items-center gap-3">
+          <p className="text-sm text-text-muted">
+            {metricsCatalog.length} metrics across {Object.keys(COMPONENTS).length} CHA components
+          </p>
+          {activeDatasourceId && (
+            <div className="flex items-center gap-1.5 text-xs text-text-muted">
+              <Database className="w-3 h-3" />
+              {isLoadingLive ? (
+                <span className="flex items-center gap-1">
+                  <Loader2 className="w-3 h-3 animate-spin" />
+                  Loading live data...
+                </span>
+              ) : liveMetrics ? (
+                <Badge variant="default" className="text-[10px]">
+                  {liveMetrics.length} live metrics
+                </Badge>
+              ) : null}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Search + Filters */}
@@ -122,6 +165,7 @@ export function CatalogPage() {
           <MetricCard
             key={m.name}
             metric={m}
+            liveInfo={liveMetricsMap.get(m.name)}
             onClick={() => setSelectedMetric(m)}
           />
         ))}
@@ -139,7 +183,12 @@ export function CatalogPage() {
         onClose={() => setSelectedMetric(null)}
         title="Metric Details"
       >
-        {selectedMetric && <MetricDetail metric={selectedMetric} />}
+        {selectedMetric && (
+          <MetricDetail
+            metric={selectedMetric}
+            liveInfo={liveMetricsMap.get(selectedMetric.name)}
+          />
+        )}
       </Drawer>
     </div>
   );

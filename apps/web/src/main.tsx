@@ -8,6 +8,8 @@ import { PriorityBuilderPage } from "./features/priority-builder/PriorityBuilder
 import { DashboardPage } from "./features/dashboards/DashboardPage";
 import { ExportsPage } from "./features/exports/ExportsPage";
 import { AdminPage } from "./features/admin/AdminPage";
+import { QueryBuilderPage } from "./features/query-builder/QueryBuilderPage";
+import { TargetBuilderPage } from "./features/target-builder/TargetBuilderPage";
 import { ToastContainer } from "./components/ui/Toast";
 import "./index.css";
 
@@ -29,6 +31,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <Route path="/catalog" element={<CatalogPage />} />
             <Route path="/priority" element={<PriorityBuilderPage />} />
             <Route path="/dashboards/:tab" element={<DashboardPage />} />
+            <Route path="/query-builder" element={<QueryBuilderPage />} />
+            <Route path="/target-builder" element={<TargetBuilderPage />} />
             <Route path="/exports" element={<ExportsPage />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="*" element={<Navigate to="/catalog" replace />} />

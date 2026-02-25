@@ -14,7 +14,7 @@ const DRILL_DIMENSIONS: { key: keyof GlobalFilter; label: string }[] = [
   { key: "pod", label: "Pod" },
 ];
 
-export function DrillDownBar() {
+export function DrillDownBar({ datasourceId }: { datasourceId?: number }) {
   const { filters, setFilter, clearFilters } = useFilterStore();
   const [labelOptions, setLabelOptions] = useState<
     Record<string, { value: string; label: string }[]>
@@ -25,7 +25,7 @@ export function DrillDownBar() {
       const results: Record<string, { value: string; label: string }[]> = {};
       for (const dim of DRILL_DIMENSIONS) {
         try {
-          const values = await fetchLabelValues(dim.key);
+          const values = await fetchLabelValues(dim.key, datasourceId);
           results[dim.key] = values.map((v) => ({ value: v, label: v }));
         } catch {
           results[dim.key] = [];
@@ -34,7 +34,7 @@ export function DrillDownBar() {
       setLabelOptions(results);
     }
     loadLabels();
-  }, []);
+  }, [datasourceId]);
 
   return (
     <div className="flex flex-wrap items-center gap-2 mb-4">

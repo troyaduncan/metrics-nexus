@@ -16,6 +16,8 @@ A performance metrics visualization platform for the **Ericsson CAF CHA (Chargin
   - [Metrics Catalog](#metrics-catalog-catalog)
   - [Priority Builder](#priority-builder-priority)
   - [Dashboards](#dashboards-dashboardstab)
+  - [Query Builder](#query-builder-query-builder)
+  - [Target Builder](#target-builder-target-builder)
   - [Exports](#exports-exports)
   - [Admin](#admin-admin)
 - [Database](#database)
@@ -69,7 +71,7 @@ The three workspaces share a base TypeScript config and Zod-validated types, ens
 ┌──────────────────────────────────────────────────────────────────┐
 │  Browser (React + Vite :5173)                                    │
 │                                                                  │
-│  Catalog → Priority Builder → Dashboards → Exports → Admin       │
+│  Catalog → Priority → Dashboards → Builder → Targets → Exports   │
 │      ↓              ↓               ↓                   ↓        │
 │  Zustand Stores (tiers, filters, theme) — persisted localStorage │
 │      ↓              ↓               ↓                   ↓        │
@@ -80,6 +82,7 @@ The three workspaces share a base TypeScript config and Zod-validated types, ens
 │  Express API Server (:3001)                                      │
 │                                                                  │
 │  Routes: /health  /api/prom/*  /api/datasources/*                │
+│          /api/queries/*  /api/targets/*                          │
 │      ↓                                  ↓                        │
 │  Global Prometheus Client     Datasource Prometheus Client       │
 │  (PROM_URL env var)           (per-datasource auth: none/basic/  │
@@ -168,13 +171,18 @@ Each metric carries the following metadata:
 
 ### Metrics Catalog (`/catalog`)
 
-A searchable, filterable browser for all 347 CHA metrics.
+A searchable, filterable browser for all 347 CHA metrics, enriched with live data from connected Prometheus datasources.
 
 - **Full-text search** across metric names and descriptions
 - **Filter by:** component, category (throughput / errors / latency / health / ...), audience (NOC / SRE / ENG), metric type (counter / gauge / histogram / summary)
-- **Metric cards** showing name, type badge, description, and audience tags
-- **Detail drawer** — clicking a metric opens a side panel with full metadata, all label keys and possible values, PromQL query examples, and source document references
-- **"Add to Tier" actions** directly from the detail drawer
+- **Metric cards** showing name, type badge, description, audience tags, **active time series count**, and **label keys** (merged from static catalog + live Prometheus data)
+- **Detail drawer** — clicking a metric opens a side panel with:
+  - Full metadata, PromQL query examples, and source document references
+  - **Live Data summary** — time series count and label count from the active datasource
+  - **Labels section** — static catalog labels (with descriptions and possible values) merged with live-discovered labels from Prometheus, each marked with a green dot if active
+  - **"Build Query"** — navigates to the Query Builder with the metric name, type, and labels pre-loaded
+  - **"Build Target"** — navigates to the Target Builder with the same pre-loaded data
+  - **"Add to Tier"** actions for priority classification
 
 ### Priority Builder (`/priority`)
 
@@ -229,7 +237,38 @@ Three live dashboards powered by Prometheus queries, rendered with Apache EChart
 
 Selecting a filter value rewrites all panel PromQL queries to include the corresponding label matcher, enabling scoped incident investigation without leaving the dashboard.
 
-**Time range selection** is available in the top bar and applies globally across all panels.
+**Time range and auto-refresh controls** are available in the Grafana-style top bar:
+
+- **Time range presets:** 5m, 15m, 1h, 6h, 12h, 24h, 2d, 7d, 30d
+- **Auto-refresh intervals:** Off, 5s, 10s, 30s, 1m, 5m, 15m, 30m, 1h, 2h, 1d — controls the refetch interval for all Prometheus queries globally
+
+### Query Builder (`/query-builder`)
+
+An intuitive PromQL expression builder with live chart preview.
+
+- **Metric selection** — searchable dropdown populated from the connected datasource (or common metrics fallback)
+- **Label matchers** — add/remove label filters with support for all four PromQL operators (`=`, `!=`, `=~`, `!~`). The label key dropdown is augmented with the selected metric's actual labels from Prometheus
+- **Function chaining** — inner functions (rate, irate, increase, delta) + outer aggregations (sum, avg, min, max, histogram_quantile) with group-by and quantile inputs
+- **Math expressions** — append arbitrary math (e.g. `/ 60`, `* 100`)
+- **Multi-target panels** — define multiple independent PromQL targets on a single chart, each with its own expression and legend format (Grafana-style `{{label}}` interpolation)
+- **Panel settings** — Y-axis unit (TPS, seconds, ms, bytes, percent, ...), decimal precision, stacking toggle, X-axis time format (auto-adaptive or explicit: HH:mm, HH:mm:ss, MM/dd HH:mm, yyyy-MM-dd)
+- **Live PromQL preview** with copy-to-clipboard
+- **Run Query** — renders an inline chart preview without leaving the page
+- **Save/Update** — persists queries to PostgreSQL with full CRUD
+- **Saved queries sidebar** — searchable list with favorites, edit, and delete actions
+- **Catalog integration** — "Build Query" button in the catalog pre-fills the metric and labels
+
+### Target Builder (`/target-builder`)
+
+A dedicated builder for individual Prometheus query targets — the building blocks for dashboard panels. Mirrors the Query Builder form layout but focused on single-target definitions.
+
+- **Same PromQL builder** — metric selection, label matchers, function chaining, math expressions
+- **Legend format** — Grafana-style legend template (e.g. `"NCHF Charging"` or `"{{instanceName}} | {{code}}"`)
+- **Ref ID** — target ordering identifier (A, B, C) for multi-target panel composition
+- **Full CRUD** — targets persisted to PostgreSQL via `/api/targets` REST endpoints
+- **Saved targets sidebar** — searchable list with favorites, edit, and delete
+- **Live preview chart** — run the target expression and see results inline
+- **Catalog integration** — "Build Target" button in the catalog pre-fills the metric and labels
 
 ### Exports (`/exports`)
 
@@ -271,7 +310,7 @@ Global application configuration.
 
 ## Database
 
-PostgreSQL is used to persist datasource configurations (credentials included).
+PostgreSQL is used to persist datasource configurations, saved queries, and saved targets.
 
 ### Schema: `datasources`
 
@@ -287,6 +326,52 @@ PostgreSQL is used to persist datasource configurations (credentials included).
 | `ca_cert` | text | PEM-encoded CA certificate |
 | `skip_verify` | boolean | Disable TLS certificate verification |
 | `status` | text | `active` \| `inactive` |
+| `created_at` | timestamp | Creation timestamp |
+| `updated_at` | timestamp | Last modification timestamp |
+
+### Schema: `metric_queries`
+
+| Column | Type | Description |
+|---|---|---|
+| `id` | varchar (PK) | UUID, auto-generated |
+| `name` | text | Human-readable query name |
+| `description` | text | Optional description |
+| `expression` | text | Built PromQL expression |
+| `metric_name` | text | Base metric name |
+| `metric_type` | text | counter / gauge / histogram / summary |
+| `labels` | jsonb | Label matchers `Record<string, string>` |
+| `aggregation` | text | Aggregation combo (e.g. `sum(increase)`) |
+| `range` | text | Range vector (e.g. `1m`, `5m`) |
+| `visualization_type` | text | Chart type (line, area, bar, scatter, pie, donut, sparkline) |
+| `color` | text | Series color hex |
+| `is_favorite` | boolean | Favorited flag |
+| `datasource_id` | integer | Associated datasource |
+| `targets` | jsonb | Multi-target array `[{ expr, legendFormat }]` |
+| `unit` | text | Y-axis unit (TPS, s, ms, bytes, percent, ...) |
+| `stack` | boolean | Stacking enabled |
+| `decimals` | integer | Y-axis decimal precision |
+| `x_axis_format` | text | X-axis time format (auto, HH:mm, HH:mm:ss, ...) |
+| `created_at` | timestamp | Creation timestamp |
+| `updated_at` | timestamp | Last modification timestamp |
+
+### Schema: `metric_targets`
+
+| Column | Type | Description |
+|---|---|---|
+| `id` | varchar (PK) | UUID, auto-generated |
+| `name` | text | Human-readable target name |
+| `description` | text | Optional description |
+| `expression` | text | Built PromQL expression |
+| `metric_name` | text | Base metric name |
+| `metric_type` | text | counter / gauge / histogram / summary |
+| `labels` | jsonb | Label matchers `Record<string, string>` |
+| `aggregation` | text | Aggregation combo |
+| `range` | text | Range vector |
+| `legend_format` | text | Grafana-style legend template |
+| `ref_id` | text | Target ordering identifier (A, B, C) |
+| `color` | text | Series color hex |
+| `is_favorite` | boolean | Favorited flag |
+| `datasource_id` | integer | Associated datasource |
 | `created_at` | timestamp | Creation timestamp |
 | `updated_at` | timestamp | Last modification timestamp |
 
@@ -332,6 +417,26 @@ Proxies to the Prometheus instance configured via `PROM_URL`.
 | `GET` | `/api/datasources/:id/metrics/export` | `?format=json\|csv` | Download metrics export file |
 | `GET` | `/api/datasources/:id/metrics/export/stream` | — | SSE stream with progress events |
 
+### Saved Queries (Query Builder)
+
+| Method | Path | Body / Params | Description |
+|---|---|---|---|
+| `GET` | `/api/queries` | — | List all saved queries |
+| `GET` | `/api/queries/:id` | — | Get single query |
+| `POST` | `/api/queries` | JSON body (Zod-validated) | Create query |
+| `PATCH` | `/api/queries/:id` | JSON body (partial) | Update query |
+| `DELETE` | `/api/queries/:id` | — | Delete query |
+
+### Saved Targets (Target Builder)
+
+| Method | Path | Body / Params | Description |
+|---|---|---|---|
+| `GET` | `/api/targets` | — | List all saved targets |
+| `GET` | `/api/targets/:id` | — | Get single target |
+| `POST` | `/api/targets` | JSON body (Zod-validated) | Create target |
+| `PATCH` | `/api/targets/:id` | JSON body (partial) | Update target |
+| `DELETE` | `/api/targets/:id` | — | Delete target |
+
 ### Per-Datasource Prometheus Proxy
 
 Proxies to a specific stored datasource, injecting its auth credentials server-side.
@@ -365,11 +470,15 @@ apps/
       db/
         index.ts                           PostgreSQL pool + Drizzle instance
         storage.ts                         DatasourceStorage CRUD abstraction
+        metric-query-storage.ts           MetricQuery CRUD (Query Builder)
+        metric-target-storage.ts          MetricTarget CRUD (Target Builder)
       routes/
         health.ts                          GET /health
         prometheus.ts                      Global Prometheus proxy routes
         datasources.ts                     Datasource CRUD + metrics export + SSE
         datasource-proxy.ts               Per-datasource Prometheus proxy routes
+        metric-queries.ts                 Saved query CRUD routes (/api/queries)
+        metric-targets.ts                 Saved target CRUD routes (/api/targets)
       services/
         prometheus-client.ts              HTTP client for global PROM_URL
         datasource-prometheus-client.ts   Per-datasource client (none/basic/TLS auth)
@@ -386,9 +495,9 @@ apps/
                                          Drawer, Input, Select, Table, Tabs, Toast, ...)
       features/
         catalog/
-          CatalogPage.tsx                Search + filter metrics, detail drawer
-          MetricCard.tsx                 Metric card display component
-          MetricDetail.tsx               Detail drawer with full metadata + PromQL examples
+          CatalogPage.tsx                Search + filter metrics, detail drawer, live data enrichment
+          MetricCard.tsx                 Metric card with labels + active series count
+          MetricDetail.tsx               Detail drawer — Build Query/Target, live labels, tier actions
         priority-builder/
           PriorityBuilderPage.tsx        Tier 1/2/3 assignment, suggest defaults, export/import
         dashboards/
@@ -399,6 +508,18 @@ apps/
           noc/panels.ts                  NOC dashboard panel definitions
           sre/panels.ts                  SRE dashboard panel definitions
           eng/panels.ts                  Engineering dashboard panel definitions
+          traffic/panels.ts             Traffic dashboard (converted from Grafana JSON)
+        query-builder/
+          QueryBuilderPage.tsx          Query builder page with form + chart preview + sidebar
+          QueryBuilderForm.tsx          PromQL builder form (multi-target, panel settings)
+          QueryChart.tsx                Chart renderer (single + multi-target, stacking, units)
+          SavedQueriesPanel.tsx         Sidebar: saved queries with CRUD
+          MetricSearchDropdown.tsx      Shared metric search dropdown (reused by Target Builder)
+          promql-builder.ts            PromQL expression builder + function/operator constants
+        target-builder/
+          TargetBuilderPage.tsx         Target builder page with form + chart preview + sidebar
+          TargetBuilderForm.tsx         Target definition form (metric, labels, legend, refId)
+          SavedTargetsPanel.tsx         Sidebar: saved targets with CRUD
         exports/
           ExportsPage.tsx               Download/copy Grafana JSON + Alert Rules YAML
           generators/
@@ -411,16 +532,20 @@ apps/
           ExportProgressDialog.tsx      SSE-driven export progress dialog
       lib/
         hooks/
-          use-prom-query.ts             React Query hook for instant Prometheus queries
-          use-prom-range-query.ts       React Query hook for range queries
+          use-prom-query.ts             React Query hooks (instant, range, multi-target) with
+                                        configurable auto-refresh from settings store
         stores/
           theme-store.ts               Dark/light mode (localStorage)
-          filter-store.ts              Global label filters + time range
+          filter-store.ts              Global label filters + time range (9 presets)
           tier-store.ts                Tier 1/2/3 metric assignments (localStorage)
-          settings-store.ts            App-wide settings
+          settings-store.ts            App-wide settings (refresh interval, datasource)
+          panel-sequencer-store.ts     Sequential panel loading for dashboards
+          query-log-store.ts           Prometheus query activity log
         api/
           datasources.ts               Typed API client for datasource endpoints
-      theme/tokens.ts                   Color tokens, magenta accent palette
+          metric-queries.ts            Typed API client for saved queries
+          metric-targets.ts            Typed API client for saved targets
+      theme/tokens.ts                   Color tokens, chart series colors, magenta accent palette
 
 packages/
   shared/
@@ -428,9 +553,11 @@ packages/
       schemas/
         metric.ts                       Zod schema — Metric, MetricType, Audience, Confidence
         datasource.ts                   Drizzle table + Zod validation for Datasource
+        metric-query.ts                 Drizzle table + Zod for MetricQuery (Query Builder)
+        metric-target.ts                Drizzle table + Zod for MetricTarget (Target Builder)
         prometheus.ts                   Prometheus API response schemas
         tier.ts                         TierConfig schema (tier1/tier2/tier3 string arrays)
-        filters.ts                      GlobalFilter + TimeRange schemas
+        filters.ts                      GlobalFilter + TimeRange + REFRESH_INTERVALS
         metrics-discovery.ts            ExtendedMetricInfo, MetricsProgress, ExportFormat
       utils/
         promql-templates.ts             PromQL builder functions (rate, errorRatio, burnRate, ...)

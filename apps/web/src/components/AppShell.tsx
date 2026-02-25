@@ -6,17 +6,68 @@ import {
   Layers,
   BarChart3,
   Download,
+  Wand2,
+  Target,
   Settings,
   Sun,
   Moon,
+  Database,
 } from "lucide-react";
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useThemeStore } from "@/lib/stores/theme-store";
+import { useSettingsStore } from "@/lib/stores/settings-store";
+import { datasourceApi } from "@/lib/api/datasources";
 import { TimeRangePicker } from "./TimeRangePicker";
+
+function DatasourceSelector() {
+  const { activeDatasourceId, updateSettings } = useSettingsStore();
+  const { data: datasources = [] } = useQuery({
+    queryKey: ["datasources"],
+    queryFn: datasourceApi.getAll,
+    staleTime: 60_000,
+  });
+
+  // Auto-select the first datasource when none is chosen
+  useEffect(() => {
+    if (activeDatasourceId === null && datasources.length > 0) {
+      updateSettings({ activeDatasourceId: datasources[0].id });
+    }
+  }, [datasources, activeDatasourceId, updateSettings]);
+
+  const options = [
+    { value: "", label: "Global (PROM_URL)" },
+    ...datasources.map((ds) => ({ value: String(ds.id), label: ds.name })),
+  ];
+
+  return (
+    <div className="flex items-center gap-1.5 text-sm">
+      <Database size={14} className="text-text-muted shrink-0" />
+      <select
+        value={activeDatasourceId ?? ""}
+        onChange={(e) =>
+          updateSettings({
+            activeDatasourceId: e.target.value ? Number(e.target.value) : null,
+          })
+        }
+        className="rounded-lg border border-border bg-surface px-2 py-1 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-magenta-500 focus:border-transparent transition-colors appearance-none cursor-pointer max-w-[180px]"
+      >
+        {options.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
 
 const NAV_ITEMS = [
   { to: "/catalog", label: "Catalog", icon: Search },
   { to: "/priority", label: "Priority", icon: Layers },
   { to: "/dashboards/noc", label: "Dashboards", icon: BarChart3 },
+  { to: "/query-builder", label: "Builder", icon: Wand2 },
+  { to: "/target-builder", label: "Targets", icon: Target },
   { to: "/exports", label: "Exports", icon: Download },
   { to: "/admin", label: "Admin", icon: Settings },
 ];
@@ -74,7 +125,7 @@ export function AppShell() {
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top bar */}
         <header className="h-12 border-b border-border bg-surface flex items-center justify-between px-4 shrink-0">
-          <div />
+          <DatasourceSelector />
           <TimeRangePicker />
         </header>
 

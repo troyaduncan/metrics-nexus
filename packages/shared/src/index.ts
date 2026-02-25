@@ -31,6 +31,7 @@ export {
   TimeRangeSchema,
   GlobalFilterSchema,
   TimeRangePreset,
+  REFRESH_INTERVALS,
   type TimeRange,
   type GlobalFilter,
 } from "./schemas/filters.js";
@@ -65,6 +66,35 @@ export {
   type InsertDatasource,
   type Datasource,
 } from "./schemas/datasource.js";
+
+// Metric query schema & types (Query Builder)
+export {
+  metricQueries,
+  insertMetricQuerySchema,
+  type InsertMetricQuery,
+  type MetricQuery,
+  type QueryTarget,
+  METRIC_TYPES as QUERY_METRIC_TYPES,
+  type QueryMetricType,
+  AGGREGATIONS,
+  type Aggregation,
+  VISUALIZATION_TYPES,
+  type VisualizationType,
+  COMMON_LABELS,
+  COMMON_METRICS,
+  QUERY_BUILDER_COLORS,
+  UNIT_TYPES,
+  type UnitType,
+  X_AXIS_FORMATS,
+} from "./schemas/metric-query.js";
+
+// Metric target schema & types (Target Builder)
+export {
+  metricTargets,
+  insertMetricTargetSchema,
+  type InsertMetricTarget,
+  type MetricTarget,
+} from "./schemas/metric-target.js";
 
 // Metrics discovery types
 export {

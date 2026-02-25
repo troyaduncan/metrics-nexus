@@ -2,17 +2,24 @@ import { useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { Spinner } from "@/components/ui/Spinner";
-import { Info, AlertTriangle } from "lucide-react";
+import { Info, AlertTriangle, Database } from "lucide-react";
+
+export interface PanelTarget {
+  expr: string;
+  legendFormat?: string;
+}
 
 export interface PanelDefinition {
   id: string;
   title: string;
   description: string;
   promql: string;
+  targets?: PanelTarget[];
   metricUsed: string;
   chartType: "timeseries" | "gauge" | "bar" | "stat";
   unit?: string;
   thresholds?: { warning: number; critical: number };
+  stack?: boolean;
 }
 
 interface DashboardPanelProps {
@@ -22,6 +29,7 @@ interface DashboardPanelProps {
   isError?: boolean;
   error?: string;
   hasData?: boolean;
+  noSource?: boolean;
 }
 
 export function DashboardPanel({
@@ -31,6 +39,7 @@ export function DashboardPanel({
   isError,
   error,
   hasData,
+  noSource,
 }: DashboardPanelProps) {
   const [showInfo, setShowInfo] = useState(false);
 
@@ -84,9 +93,15 @@ export function DashboardPanel({
             </div>
           </div>
         )}
-        {!isLoading && !isError && !hasData && (
+        {noSource && (
           <div className="flex flex-col items-center justify-center h-full gap-2 text-text-muted">
-            <p className="text-xs">No data source connected</p>
+            <Database size={20} className="text-text-muted opacity-40" />
+            <p className="text-xs">Select a data source in the header</p>
+          </div>
+        )}
+        {!noSource && !isLoading && !isError && !hasData && (
+          <div className="flex flex-col items-center justify-center h-full gap-2 text-text-muted">
+            <p className="text-xs">No data returned</p>
             <div className="mt-2 rounded bg-surface-secondary p-2">
               <code className="text-[10px] font-mono text-text-muted break-all">
                 {panel.promql}

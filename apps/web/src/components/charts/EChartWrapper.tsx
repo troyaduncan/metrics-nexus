@@ -1,6 +1,12 @@
 import ReactEChartsCore from "echarts-for-react/lib/core";
 import * as echarts from "echarts/core";
-import { LineChart, BarChart, GaugeChart } from "echarts/charts";
+import {
+  LineChart,
+  BarChart,
+  GaugeChart,
+  PieChart,
+  ScatterChart,
+} from "echarts/charts";
 import {
   GridComponent,
   TooltipComponent,
@@ -15,6 +21,8 @@ echarts.use([
   LineChart,
   BarChart,
   GaugeChart,
+  PieChart,
+  ScatterChart,
   GridComponent,
   TooltipComponent,
   LegendComponent,

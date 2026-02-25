@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sqlite3:*)",
+      "Bash(while read f)",
+      "Bash(do if grep -q \"polcaf\\\\|polcafgp2\\\\|BEGIN CERTIFICATE\\\\|BEGIN.*PRIVATE\" \"$f\")",
+      "Bash(then echo \"$f\" fi done)",
+      "Bash(# Check the kubeconfig for polcafgp2 cluster - likely has the client cert embedded find \"\"/mnt/c/Users/TDuncan28\"\" -maxdepth 6 -name \"\"*.yaml\"\" -o -name \"\"config\"\" | xargs grep -l \"\"polcaf\\\\|polcafgp\"\")",
+      "Bash(__NEW_LINE_f23be90d622e30cc__ echo \"=== Stat: Core Internal Statistics ===\")",
+      "Bash(__NEW_LINE_efdd17ffee5b3ee5__ echo \"=== Bar: Access Error Rate ===\")",
+      "Bash(npm run:*)",
+      "Read(//home/troy/projects/metrics-nexus/**)",
+      "Bash(pgrep:*)",
+      "Bash(cat:*)"
+    ],
+    "additionalDirectories": [
+      "/home/troy/projects/metrics-nexus",
+      "/tmp"
+    ]
+  }
+}

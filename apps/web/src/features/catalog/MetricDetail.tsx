@@ -1,20 +1,38 @@
+import { useNavigate } from "react-router-dom";
 import { Badge, typeBadgeVariant, categoryBadgeVariant } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { COMPONENTS } from "@metrics-nexus/shared/utils/metric-categories.js";
 import { useTierStore } from "@/lib/stores/tier-store";
+import { Activity, Tag, Wand2, Target } from "lucide-react";
 import type { Metric } from "@metrics-nexus/shared/schemas/metric.js";
 import type { TierLevel } from "@metrics-nexus/shared/schemas/tier.js";
+import type { ExtendedMetricInfo } from "@metrics-nexus/shared";
 
 interface MetricDetailProps {
   metric: Metric;
+  liveInfo?: ExtendedMetricInfo;
 }
 
-export function MetricDetail({ metric }: MetricDetailProps) {
+export function MetricDetail({ metric, liveInfo }: MetricDetailProps) {
+  const navigate = useNavigate();
   const { addToTier, getTierForMetric } = useTierStore();
   const currentTier = getTierForMetric(metric.name);
   const componentName =
     COMPONENTS[metric.component as keyof typeof COMPONENTS] || metric.component;
+
+  // All label keys (static + live) for passing to the builder
+  const allLabelKeys = [
+    ...metric.labels.map((l) => l.key),
+    ...(liveInfo?.labels || []).filter(
+      (k) => !metric.labels.some((l) => l.key === k)
+    ),
+  ];
+
+  // Compute live-only labels (labels from Prometheus not in static catalog)
+  const staticLabelKeys = new Set(metric.labels.map((l) => l.key));
+  const liveLabelKeys = liveInfo?.labels || [];
+  const liveOnlyLabels = liveLabelKeys.filter((k) => !staticLabelKeys.has(k));
 
   return (
     <div className="space-y-6">
@@ -25,6 +43,11 @@ export function MetricDetail({ metric }: MetricDetailProps) {
         </h3>
         {metric.description && (
           <p className="mt-2 text-sm text-text-secondary">{metric.description}</p>
+        )}
+        {liveInfo?.help && liveInfo.help !== metric.description && (
+          <p className="mt-1 text-xs text-text-muted italic">
+            Prometheus: {liveInfo.help}
+          </p>
         )}
       </div>
 
@@ -41,19 +64,94 @@ export function MetricDetail({ metric }: MetricDetailProps) {
         {metric.unit && <Badge variant="blue">{metric.unit}</Badge>}
       </div>
 
-      {/* Labels */}
-      {metric.labels.length > 0 && (
+      {/* Build Query / Target buttons */}
+      <div className="flex gap-2">
+        <Button
+          onClick={() =>
+            navigate("/query-builder", {
+              state: {
+                metricName: metric.name,
+                metricType: metric.type,
+                metricLabels: allLabelKeys,
+              },
+            })
+          }
+          className="flex-1 gap-2"
+          size="sm"
+        >
+          <Wand2 className="w-3.5 h-3.5" />
+          Build Query
+        </Button>
+        <Button
+          onClick={() =>
+            navigate("/target-builder", {
+              state: {
+                metricName: metric.name,
+                metricType: metric.type,
+                metricLabels: allLabelKeys,
+              },
+            })
+          }
+          variant="secondary"
+          className="flex-1 gap-2"
+          size="sm"
+        >
+          <Target className="w-3.5 h-3.5" />
+          Build Target
+        </Button>
+      </div>
+
+      {/* Live metrics summary */}
+      {liveInfo && (
+        <div className="rounded-lg bg-surface-secondary border border-border p-3">
+          <div className="flex items-center gap-1.5 mb-2">
+            <Activity className="w-3.5 h-3.5 text-text-muted" />
+            <span className="text-xs font-medium text-text-muted">
+              Live Data
+            </span>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <p className="text-[10px] text-text-muted">Time Series</p>
+              <p className="text-sm font-semibold font-mono text-text-primary">
+                {liveInfo.sampleCount.toLocaleString()}
+              </p>
+            </div>
+            <div>
+              <p className="text-[10px] text-text-muted">Labels</p>
+              <p className="text-sm font-semibold font-mono text-text-primary">
+                {liveInfo.labels.length}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Labels — static catalog labels with descriptions */}
+      {(metric.labels.length > 0 || liveOnlyLabels.length > 0) && (
         <div>
-          <h4 className="text-sm font-semibold text-text-primary mb-2">Labels</h4>
+          <div className="flex items-center gap-1.5 mb-2">
+            <Tag className="w-3.5 h-3.5 text-text-muted" />
+            <h4 className="text-sm font-semibold text-text-primary">Labels</h4>
+            <Badge variant="default" className="text-[9px]">
+              {metric.labels.length + liveOnlyLabels.length}
+            </Badge>
+          </div>
           <div className="space-y-2">
+            {/* Static catalog labels (with descriptions + possible values) */}
             {metric.labels.map((label) => (
               <div
                 key={label.key}
                 className="rounded-lg bg-surface-secondary border border-border p-3"
               >
-                <code className="text-xs font-mono text-magenta-400">
-                  {label.key}
-                </code>
+                <div className="flex items-center gap-2">
+                  <code className="text-xs font-mono text-magenta-400">
+                    {label.key}
+                  </code>
+                  {liveInfo?.labels.includes(label.key) && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-500" title="Active in Prometheus" />
+                  )}
+                </div>
                 {label.description && (
                   <p className="text-xs text-text-muted mt-1">
                     {label.description}
@@ -73,6 +171,30 @@ export function MetricDetail({ metric }: MetricDetailProps) {
                 )}
               </div>
             ))}
+
+            {/* Live-only labels (from Prometheus, not in static catalog) */}
+            {liveOnlyLabels.length > 0 && (
+              <>
+                {metric.labels.length > 0 && (
+                  <p className="text-[10px] text-text-muted uppercase tracking-wider font-semibold pt-1">
+                    Discovered from Prometheus
+                  </p>
+                )}
+                {liveOnlyLabels.map((key) => (
+                  <div
+                    key={key}
+                    className="rounded-lg bg-surface-secondary border border-border/50 p-3"
+                  >
+                    <div className="flex items-center gap-2">
+                      <code className="text-xs font-mono text-text-secondary">
+                        {key}
+                      </code>
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-500" title="Active in Prometheus" />
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
           </div>
         </div>
       )}

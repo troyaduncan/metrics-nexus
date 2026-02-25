@@ -19,7 +19,7 @@ export const nocPanels: PanelDefinition[] = [
     description:
       "Sum of all incoming request rates across CHA Access HTTP interfaces.",
     promql:
-      'sum(rate(cha_access_nchf_charging_http_requests_total{$filters}[5m])) + sum(rate(cha_access_balance_enquiry_http_requests_total{$filters}[5m])) + sum(rate(cha_access_refill_http_requests_total{$filters}[5m]))',
+      '(sum(rate(cha_access_nchf_charging_http_requests_total{$filters}[5m])) or vector(0)) + (sum(rate(cha_access_balance_enquiry_http_requests_total{$filters}[5m])) or vector(0)) + (sum(rate(cha_access_refill_http_requests_total{$filters}[5m])) or vector(0))',
     metricUsed:
       "cha_access_nchf_charging_http_requests_total, cha_access_balance_enquiry_http_requests_total, cha_access_refill_http_requests_total",
     chartType: "timeseries",

@@ -4,6 +4,8 @@ import healthRouter from "./routes/health.js";
 import promRouter from "./routes/prometheus.js";
 import datasourcesRouter from "./routes/datasources.js";
 import datasourceProxyRouter from "./routes/datasource-proxy.js";
+import metricQueriesRouter from "./routes/metric-queries.js";
+import metricTargetsRouter from "./routes/metric-targets.js";
 
 const app = express();
 const PORT = parseInt(process.env.PORT || "3001", 10);
@@ -15,6 +17,8 @@ app.use(healthRouter);
 app.use(promRouter);
 app.use(datasourcesRouter);
 app.use(datasourceProxyRouter);
+app.use(metricQueriesRouter);
+app.use(metricTargetsRouter);
 
 app.use(
   (
